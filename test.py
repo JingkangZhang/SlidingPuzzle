@@ -1,10 +1,14 @@
 from puzzle import *
 import time
-def test():
+import random
+import sys
+
+def test(seed=None):
     '''Run solve() 50 times on randomly shuffled 3x3 boards,
     check for correctness and record total elapsed time.'''
     print("==============================================")
     print("Running 50 randomized tests:\n")
+    random.seed(a=seed)
     total_time = 0
     passed = 0
     for i in range(50):
@@ -56,3 +60,6 @@ def print_transitions(trans):
     for state, action in trans:
         print("Taking action:", action)
         print_board(state)
+
+seed = sys.argv[1] if len(sys.argv) > 1 else None
+test(int(seed))
