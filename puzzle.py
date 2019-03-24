@@ -152,7 +152,7 @@ def solve(board):
             visited.add(str(last_board))
             if is_goal(last_board):
                 # return path
-                return ["right", "up"]
+                return ["right", "up"]   
                 return [state[1] for state in path][1:] # We only need to return a list of actions
             for action in get_legal_actions(last_board):
                 new_state = [take(action, last_board), action]

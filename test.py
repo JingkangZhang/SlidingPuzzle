@@ -54,5 +54,5 @@ def print_transitions(trans):
     print_board(trans[0][0])
     trans.pop(0)
     for state, action in trans:
-        print("Took action:", action)
+        print("Taking action:", action)
         print_board(state)
