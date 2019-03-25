@@ -56,6 +56,7 @@ def visualize(board, actions):
     ''' Visualize the transitions in BOARD by printing each states after taking actions.
     Transition time interval: 1 second. The screen is cleared by calling cls() before printing. '''
     copy = deepcopy(board)
+    cls()
     print_board(copy)
     sleep(1)
     for action in actions:
