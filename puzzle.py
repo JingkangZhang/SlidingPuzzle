@@ -1,12 +1,13 @@
 #################################
 ## Project: Sliding Puzzle     ##
 ## Copyright ReadyPython Sp19  ##
+
 #################################
 
-from copy import deepcopy
-from random import choice
-from time import sleep
-import os
+from copy import deepcopy # Used to copy boards represented as 2D lists
+from random import choice # Used in shuffle() to choose randomly from legal actions
+from time import sleep # Used in visualization
+import os # useful for clear console screen utility
 
 sample_board = [ #represented as a 2D list
     [1,2,3],
@@ -15,9 +16,23 @@ sample_board = [ #represented as a 2D list
 ]
 ACTIONS = ["up", "down", "left", "right"] #Actions are represented as ways to move the empty slot (0) around.
 
-def cls():
-    '''Clears the terminal screen.'''
-    os.system('cls' if os.name=='nt' else 'clear')
+def print_board(board):
+    '''Prints BOARD to console in the following format:
+    -------------
+    | 4 | 3 | 6 |
+    -------------
+    |   | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------
+    '''
+    print("-------------")
+    for row in range(len(board)):
+        print("| ", end="")
+        for col in range(len(board[0])):
+            content = board[row][col]
+            print(content if content != 0 else " ", end=" | ")
+        print("\n-------------")
 
 def play():
     ''' Plays a sliding puzzle game by
@@ -50,26 +65,6 @@ def visualize(board, actions):
     print("Initial state:")
     print_board(board)
     print("Actions took:", actions, "(Actions are defined as ways the empty slot is moved around.)")
-
-
-
-def print_board(board):
-    '''Prints BOARD to console in the following format:
-    -------------
-    | 4 | 3 | 6 |
-    -------------
-    |   | 5 | 7 |
-    -------------
-    | 1 | 8 | 4 |
-    -------------
-    '''
-    print("-------------")
-    for row in range(len(board)):
-        print("| ", end="")
-        for col in range(len(board[0])):
-            content = board[row][col]
-            print(content if content != 0 else " ", end=" | ")
-        print("\n-------------")
 
 def find_zero(board):
     '''Returns the coordinate as (row_number, column_number)
@@ -202,6 +197,10 @@ def solve(board):
                 new_path = path + [new_state]
                 q.append(new_path)
     return "NO_SOLUTION"
+    
+def cls():
+    '''Clears the terminal screen.'''
+    os.system('cls' if os.name=='nt' else 'clear')
 
 if __name__ == '__main__':
     print("====================================================")
