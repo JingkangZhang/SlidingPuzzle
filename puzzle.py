@@ -184,6 +184,7 @@ def solve(board):
     -------------
     | 7 | 8 |   |
     -------------
+    Returns "NO_SOLUTION" if there is no solution.
     '''
     visited = set() # This stores boards converted to strings from 2D lists.
     q = []
