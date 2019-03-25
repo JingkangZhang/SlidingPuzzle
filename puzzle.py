@@ -184,22 +184,7 @@ def solve(board):
     -------------
     Returns "NO_SOLUTION" if there is no solution.
     '''
-    visited = set() # This stores boards converted to strings from 2D lists.
-    q = []
-    q.append([[board, None]]) # The elements on the fringe are (board_state, last_action)
-    while q:
-        path = q.pop(0)
-        last_board = path[-1][0]
-        if str(last_board) not in visited:
-            visited.add(str(last_board))
-            if is_goal(last_board):
-                # return path
-                return [state[1] for state in path][1:] # We only need to return a list of actions
-            for action in get_legal_actions(last_board):
-                new_state = [take(action, last_board), action]
-                new_path = path + [new_state]
-                q.append(new_path)
-    return "NO_SOLUTION"
+    "*** YOUR CODE HERE ***"
 
 def cls():
     '''Clears the terminal screen.'''
