@@ -5,12 +5,46 @@
 
 from copy import deepcopy
 from random import choice
+from time import sleep
+import os
+
 sample_board = [ #represented as a 2D list
     [1,2,3],
     [4,5,6],
     [7,8,0] # 0 stands for the empty slot
 ]
 ACTIONS = ["up", "down", "left", "right"] #Actions are represented as ways to move the empty slot (0) around.
+
+def cls():
+    '''Clears the terminal screen.'''
+    os.system('cls' if os.name=='nt' else 'clear')
+
+def play():
+    board = shuffle(sample_board)
+    print("This is the randomly shuffled initial state:")
+    print_board(board)
+    print("Solving...")
+    actions = solve(board)
+    if actions == "NO_SOLUTION":
+        print("There is no solution from current state.")
+        return
+    print("Solved!")
+    input("Press Enter to start visualization: ")
+    visualize(board, actions)
+
+def visualize(board, actions):
+    copy = deepcopy(board)
+    for action in actions:
+        copy = take(action, copy)
+        cls()
+        print_board(copy)
+        sleep(1)
+    print("Solved! Total steps:", len(actions))
+    print("Initial state:")
+    print_board(board)
+    print("Actions took:", actions, "(Actions are defined as ways the empty slot is moved around.)")
+
+
 
 def print_board(board):
     '''Prints BOARD to console in the following format:
@@ -132,6 +166,7 @@ def is_goal(board):
     | 7 | 8 |   |
     -------------'''
     return board == [[1,2,3],[4,5,6],[7,8,0]]
+
 def solve(board):
     '''Returns a list of actions which, taken on BOARD, solves the puzzle by
     turning the board into the following form:
@@ -161,33 +196,6 @@ def solve(board):
                 q.append(new_path)
     return "NO_SOLUTION"
 
-# from utils import PriorityQueue
-# def solve(board):
-#     visited = set() # This stores boards converted to strings from 2D lists.
-#     pq = PriorityQueue()
-#     pq.push([[board, None]], 0) # The elements on the fringe are (board_state, last_action). push(item, priority)
-#     while not pq.isEmpty():
-#         path = pq.pop()
-#         last_board = path[-1][0]
-#         if str(last_board) not in visited:
-#             visited.add(str(last_board))
-#             if is_goal(last_board):
-#                 # return path
-#                 # return ["right", "up", "left", "down"]
-#                 return [state[1] for state in path][1:] # We only need to return a list of actions
-#             for action in get_legal_actions(last_board):
-#                 new_state = [take(action, last_board), action]
-#                 new_path = path + [new_state]
-#                 length_so_far = len(new_path)
-#                 pq.push(new_path, length_so_far + idealMinumumSteps(board))
-#     return "NO_SOLUTION"
-#
-# def heuristics(board):
-#     ''' Returns the total number of misplaced numbers in BOARD.
-#     Note that this heuristics is admissible and consistent.'''
-#     count = 0
-#     for row in range(len(board)):
-#         for col in range(len(board[0])):
-#             if board[row][col] != row * 3 + col + 1:
-#                 count += 1
-#     return count
+print("====================================================")
+print("Welcome to ReadyPython Project: Silding Puzzle!")
+play()
