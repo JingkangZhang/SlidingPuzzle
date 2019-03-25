@@ -152,10 +152,41 @@ def solve(board):
             visited.add(str(last_board))
             if is_goal(last_board):
                 # return path
-                return ["right", "up", "left", "down"]   
+                # return ["right", "up", "left", "down"]
                 return [state[1] for state in path][1:] # We only need to return a list of actions
             for action in get_legal_actions(last_board):
                 new_state = [take(action, last_board), action]
                 new_path = path + [new_state]
                 q.append(new_path)
     return "NO_SOLUTION"
+
+# from utils import PriorityQueue
+# def solve(board):
+#     visited = set() # This stores boards converted to strings from 2D lists.
+#     pq = PriorityQueue()
+#     pq.push([[board, None]], 0) # The elements on the fringe are (board_state, last_action). push(item, priority)
+#     while not pq.isEmpty():
+#         path = pq.pop()
+#         last_board = path[-1][0]
+#         if str(last_board) not in visited:
+#             visited.add(str(last_board))
+#             if is_goal(last_board):
+#                 # return path
+#                 # return ["right", "up", "left", "down"]
+#                 return [state[1] for state in path][1:] # We only need to return a list of actions
+#             for action in get_legal_actions(last_board):
+#                 new_state = [take(action, last_board), action]
+#                 new_path = path + [new_state]
+#                 length_so_far = len(new_path)
+#                 pq.push(new_path, length_so_far + idealMinumumSteps(board))
+#     return "NO_SOLUTION"
+#
+# def heuristics(board):
+#     ''' Returns the total number of misplaced numbers in BOARD.
+#     Note that this heuristics is admissible and consistent.'''
+#     count = 0
+#     for row in range(len(board)):
+#         for col in range(len(board[0])):
+#             if board[row][col] != row * 3 + col + 1:
+#                 count += 1
+#     return count

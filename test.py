@@ -1,7 +1,137 @@
-from puzzle import *
+from puzzle import solve
 import time
 import random
 import sys
+from copy import deepcopy
+
+sample_board = [ #represented as a 2D list
+    [1,2,3],
+    [4,5,6],
+    [7,8,0] # 0 stands for the empty slot
+]
+ACTIONS = ["up", "down", "left", "right"] #Actions are represented as ways to move the empty slot (0) around.
+
+
+def print_board(board):
+    '''Print BOARD to console in the following format:
+    -------------
+    | 4 | 3 | 6 |
+    -------------
+    |   | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------
+    '''
+    print("-------------")
+    for row in range(len(board)):
+        print("| ", end="")
+        for col in range(len(board[0])):
+            content = board[row][col]
+            print(content if content != 0 else " ", end=" | ")
+        print("\n-------------")
+
+def find_zero(board):
+    '''Return the coordinate as (row_number, column_number)
+    of "0" (the empty slot) in BOARD.
+
+    E.g.
+    The zero coordinate of the following board is (1, 0)
+    -------------
+    | 2 | 3 | 6 |
+    -------------
+    |   | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------
+    '''
+    for row in range(len(board)):
+        for col in range(len(board[0])):
+            if board[row][col] == 0:
+                return row, col
+
+def get_legal_actions(board):
+    '''Return a list of legal actions in BOARD. Actions are represented
+    as ways to move the empty slot (0) around. An action should be in
+    ["up", "down", "left", "right"].
+
+    E.g. In the following board, the legal actions are ["up", "down", "right"].
+    -------------
+    | 2 | 3 | 6 |
+    -------------
+    |   | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------'''
+    zero_pos = find_zero(board)
+    board_rows = len(board)
+    board_cols = len(board[0])
+    actions = ACTIONS[:]
+    if zero_pos[0] == 0:
+        actions.remove("up")
+    if zero_pos[0] == board_rows - 1:
+        actions.remove("down")
+    if zero_pos[1] == 0:
+        actions.remove("left")
+    if zero_pos[1] == board_cols - 1:
+        actions.remove("right")
+    return actions
+
+def take(action, board):
+    '''Return the resulting board after taking ACTION on BOARD,
+    assuming ACTION is legal. ACTION should be in ["up", "down", "left", "right"].
+    Actions are represented as ways to move the empty slot (0) around.
+
+    E.g.
+    -------------
+    | 2 | 3 | 6 |
+    -------------
+    |   | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------
+    Taking action "up" in the above board will result in the following board:
+    -------------
+    |   | 3 | 6 |
+    -------------
+    | 2 | 5 | 7 |
+    -------------
+    | 1 | 8 | 4 |
+    -------------
+    '''
+    assert action in ACTIONS, "Invalid action: '{}'".format(action)
+    zero_pos = find_zero(board)
+    zero_row = zero_pos[0]
+    zero_col = zero_pos[1]
+    new_board = deepcopy(board)
+    if action == "up":
+        new_board[zero_row][zero_col], new_board[zero_row - 1][zero_col] = new_board[zero_row - 1][zero_col], new_board[zero_row][zero_col]
+    if action == "down":
+        new_board[zero_row][zero_col], new_board[zero_row + 1][zero_col] = new_board[zero_row + 1][zero_col], new_board[zero_row][zero_col]
+    if action == "left":
+        new_board[zero_row][zero_col], new_board[zero_row][zero_col - 1] = new_board[zero_row][zero_col - 1], new_board[zero_row][zero_col]
+    if action == "right":
+        new_board[zero_row][zero_col], new_board[zero_row][zero_col + 1] = new_board[zero_row][zero_col + 1], new_board[zero_row][zero_col]
+    return new_board
+
+def shuffle(board):
+    '''Return a new board obtained by taking 50 random
+    actions from BOARD. '''
+    new_board = deepcopy(board)
+    for i in range(50):
+        action = random.choice(get_legal_actions(new_board))
+        new_board = take(action, new_board)
+    return new_board
+
+def is_goal(board):
+    '''Return True iff BOARD is
+    -------------
+    | 1 | 2 | 3 |
+    -------------
+    | 4 | 5 | 6 |
+    -------------
+    | 7 | 8 |   |
+    -------------'''
+    return board == [[1,2,3],[4,5,6],[7,8,0]]
 
 def test(seed=None):
     '''Run solve() 50 times on randomly shuffled 3x3 boards,
@@ -61,5 +191,5 @@ def print_transitions(trans):
         print("Taking action:", action)
         print_board(state)
 
-seed = sys.argv[1] if len(sys.argv) > 1 else None
-test(int(seed))
+seed = int(sys.argv[1]) if len(sys.argv) > 1 else None
+test(seed)
