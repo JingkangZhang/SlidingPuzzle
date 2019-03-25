@@ -26,13 +26,7 @@ def print_board(board):
     | 1 | 8 | 4 |
     -------------
     '''
-    print("-------------")
-    for row in range(len(board)):
-        print("| ", end="")
-        for col in range(len(board[0])):
-            content = board[row][col]
-            print(content if content != 0 else " ", end=" | ")
-        print("\n-------------")
+    "*** YOUR CODE HERE ***"
 
 def play():
     ''' Plays a sliding puzzle game by
@@ -55,19 +49,7 @@ def play():
 def visualize(board, actions):
     ''' Visualize the transitions in BOARD by printing each states after taking actions.
     Transition time interval: 1 second. The screen is cleared by calling cls() before printing. '''
-    copy = deepcopy(board)
-    cls()
-    print_board(copy)
-    sleep(1)
-    for action in actions:
-        copy = take(action, copy)
-        cls()
-        print_board(copy)
-        sleep(1)
-    print("Solved! Total steps:", len(actions))
-    print("Initial state:")
-    print_board(board)
-    print("Actions took:", actions, "(Actions are defined as ways the empty slot is moved around.)")
+    "*** YOUR CODE HERE ***"
 
 def find_zero(board):
     '''Returns the coordinate as (row_number, column_number)
@@ -83,10 +65,7 @@ def find_zero(board):
     | 1 | 8 | 4 |
     -------------
     '''
-    for row in range(len(board)):
-        for col in range(len(board[0])):
-            if board[row][col] == 0:
-                return row, col
+    "*** YOUR CODE HERE ***"
 
 def get_legal_actions(board):
     '''Returns a list of legal actions in BOARD. Actions are represented
@@ -101,19 +80,7 @@ def get_legal_actions(board):
     -------------
     | 1 | 8 | 4 |
     -------------'''
-    zero_pos = find_zero(board)
-    board_rows = len(board)
-    board_cols = len(board[0])
-    actions = ACTIONS[:]
-    if zero_pos[0] == 0:
-        actions.remove("up")
-    if zero_pos[0] == board_rows - 1:
-        actions.remove("down")
-    if zero_pos[1] == 0:
-        actions.remove("left")
-    if zero_pos[1] == board_cols - 1:
-        actions.remove("right")
-    return actions
+    "*** YOUR CODE HERE ***"
 
 def take(action, board):
     '''Returns the resulting board after taking ACTION on BOARD,
@@ -138,27 +105,14 @@ def take(action, board):
     -------------
     '''
     assert action in ACTIONS, "Invalid action: '{}'".format(action)
-    zero_pos = find_zero(board)
-    zero_row = zero_pos[0]
-    zero_col = zero_pos[1]
-    new_board = deepcopy(board)
-    if action == "up":
-        new_board[zero_row][zero_col], new_board[zero_row - 1][zero_col] = new_board[zero_row - 1][zero_col], new_board[zero_row][zero_col]
-    if action == "down":
-        new_board[zero_row][zero_col], new_board[zero_row + 1][zero_col] = new_board[zero_row + 1][zero_col], new_board[zero_row][zero_col]
-    if action == "left":
-        new_board[zero_row][zero_col], new_board[zero_row][zero_col - 1] = new_board[zero_row][zero_col - 1], new_board[zero_row][zero_col]
-    if action == "right":
-        new_board[zero_row][zero_col], new_board[zero_row][zero_col + 1] = new_board[zero_row][zero_col + 1], new_board[zero_row][zero_col]
-    return new_board
+    "*** YOUR CODE HERE ***"
 
 def shuffle(board):
     '''Return a new board obtained by taking 50 random
     actions from BOARD. '''
     new_board = deepcopy(board)
     for i in range(50):
-        action = choice(get_legal_actions(new_board))
-        new_board = take(action, new_board)
+        #FIXME
     return new_board
 
 def is_goal(board):
@@ -184,22 +138,7 @@ def solve(board):
     -------------
     Returns "NO_SOLUTION" if there is no solution.
     '''
-    visited = set() # This stores boards converted to strings from 2D lists.
-    q = []
-    q.append([[board, None]]) # The elements on the fringe are (board_state, last_action)
-    while q:
-        path = q.pop(0)
-        last_board = path[-1][0]
-        if str(last_board) not in visited:
-            visited.add(str(last_board))
-            if is_goal(last_board):
-                # return path
-                return [state[1] for state in path][1:] # We only need to return a list of actions
-            for action in get_legal_actions(last_board):
-                new_state = [take(action, last_board), action]
-                new_path = path + [new_state]
-                q.append(new_path)
-    return "NO_SOLUTION"
+    "*** YOUR CODE HERE ***"
 
 def cls():
     '''Clears the terminal screen.'''
