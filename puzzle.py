@@ -2,6 +2,7 @@
 ## Project: Sliding Puzzle     ##
 ## Copyright ReadyPython Sp19  ##
 #################################
+
 from copy import deepcopy
 from random import choice
 sample_board = [ #represented as a 2D list
@@ -12,7 +13,7 @@ sample_board = [ #represented as a 2D list
 ACTIONS = ["up", "down", "left", "right"] #Actions are represented as ways to move the empty slot (0) around.
 
 def print_board(board):
-    '''Print BOARD to console in the following format:
+    '''Prints BOARD to console in the following format:
     -------------
     | 4 | 3 | 6 |
     -------------
@@ -30,7 +31,7 @@ def print_board(board):
         print("\n-------------")
 
 def find_zero(board):
-    '''Return the coordinate as (row_number, column_number)
+    '''Returns the coordinate as (row_number, column_number)
     of "0" (the empty slot) in BOARD.
 
     E.g.
@@ -49,7 +50,7 @@ def find_zero(board):
                 return row, col
 
 def get_legal_actions(board):
-    '''Return a list of legal actions in BOARD. Actions are represented
+    '''Returns a list of legal actions in BOARD. Actions are represented
     as ways to move the empty slot (0) around. An action should be in
     ["up", "down", "left", "right"].
 
@@ -76,7 +77,7 @@ def get_legal_actions(board):
     return actions
 
 def take(action, board):
-    '''Return the resulting board after taking ACTION on BOARD,
+    '''Returns the resulting board after taking ACTION on BOARD,
     assuming ACTION is legal. ACTION should be in ["up", "down", "left", "right"].
     Actions are represented as ways to move the empty slot (0) around.
 
@@ -122,7 +123,7 @@ def shuffle(board):
     return new_board
 
 def is_goal(board):
-    '''Return True iff BOARD is
+    '''Returns True iff BOARD is
     -------------
     | 1 | 2 | 3 |
     -------------
@@ -132,7 +133,7 @@ def is_goal(board):
     -------------'''
     return board == [[1,2,3],[4,5,6],[7,8,0]]
 def solve(board):
-    '''Return a list of actions which, taken on BOARD, solves the puzzle by
+    '''Returns a list of actions which, taken on BOARD, solves the puzzle by
     turning the board into the following form:
     -------------
     | 1 | 2 | 3 |
