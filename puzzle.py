@@ -20,12 +20,17 @@ def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
 def play():
+    ''' Plays a sliding puzzle game by
+    1. Shuffling the sample_board to get initial board state
+    2. Solve the puzzle and obtain a list of actions
+    3. Visualize the solution
+    '''
     board = shuffle(sample_board)
     print("This is the randomly shuffled initial state:")
     print_board(board)
     print("Solving...")
     actions = solve(board)
-    if actions == "NO_SOLUTION":
+    if actions == "NO_SOLUTION": # A correct shuffle function should NOT result in NO_SOLUTION.
         print("There is no solution from current state.")
         return
     print("Solved!")
@@ -33,6 +38,8 @@ def play():
     visualize(board, actions)
 
 def visualize(board, actions):
+    ''' Visualize the transitions in BOARD by printing each states after taking actions.
+    Transition time interval: 1 second. The screen is cleared by calling cls() before printing. '''
     copy = deepcopy(board)
     for action in actions:
         copy = take(action, copy)
@@ -188,7 +195,6 @@ def solve(board):
             visited.add(str(last_board))
             if is_goal(last_board):
                 # return path
-                # return ["right", "up", "left", "down"]
                 return [state[1] for state in path][1:] # We only need to return a list of actions
             for action in get_legal_actions(last_board):
                 new_state = [take(action, last_board), action]
@@ -196,6 +202,7 @@ def solve(board):
                 q.append(new_path)
     return "NO_SOLUTION"
 
-print("====================================================")
-print("Welcome to ReadyPython Project: Silding Puzzle!")
-play()
+if __name__ == '__main__':
+    print("====================================================")
+    print("Welcome to ReadyPython Project: Silding Puzzle!")
+    play()
