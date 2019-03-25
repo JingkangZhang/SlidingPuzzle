@@ -83,10 +83,7 @@ def find_zero(board):
     | 1 | 8 | 4 |
     -------------
     '''
-    for row in range(len(board)):
-        for col in range(len(board[0])):
-            if board[row][col] == 0:
-                return row, col
+    "*** YOUR CODE HERE ***"
 
 def get_legal_actions(board):
     '''Returns a list of legal actions in BOARD. Actions are represented
@@ -101,19 +98,7 @@ def get_legal_actions(board):
     -------------
     | 1 | 8 | 4 |
     -------------'''
-    zero_pos = find_zero(board)
-    board_rows = len(board)
-    board_cols = len(board[0])
-    actions = ACTIONS[:]
-    if zero_pos[0] == 0:
-        actions.remove("up")
-    if zero_pos[0] == board_rows - 1:
-        actions.remove("down")
-    if zero_pos[1] == 0:
-        actions.remove("left")
-    if zero_pos[1] == board_cols - 1:
-        actions.remove("right")
-    return actions
+    "*** YOUR CODE HERE ***"
 
 def take(action, board):
     '''Returns the resulting board after taking ACTION on BOARD,
@@ -157,8 +142,7 @@ def shuffle(board):
     actions from BOARD. '''
     new_board = deepcopy(board)
     for i in range(50):
-        action = choice(get_legal_actions(new_board))
-        new_board = take(action, new_board)
+        ## FIXME
     return new_board
 
 def is_goal(board):
@@ -184,22 +168,7 @@ def solve(board):
     -------------
     Returns "NO_SOLUTION" if there is no solution.
     '''
-    visited = set() # This stores boards converted to strings from 2D lists.
-    q = []
-    q.append([[board, None]]) # The elements on the fringe are (board_state, last_action)
-    while q:
-        path = q.pop(0)
-        last_board = path[-1][0]
-        if str(last_board) not in visited:
-            visited.add(str(last_board))
-            if is_goal(last_board):
-                # return path
-                return [state[1] for state in path][1:] # We only need to return a list of actions
-            for action in get_legal_actions(last_board):
-                new_state = [take(action, last_board), action]
-                new_path = path + [new_state]
-                q.append(new_path)
-    return "NO_SOLUTION"
+    "*** YOUR CODE HERE ***"
 
 def cls():
     '''Clears the terminal screen.'''
