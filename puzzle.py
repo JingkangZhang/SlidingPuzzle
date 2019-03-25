@@ -1,7 +1,7 @@
 #################################
 ## Project: Sliding Puzzle     ##
 ## Copyright ReadyPython Sp19  ##
-
+## All rights reserved.        ##
 #################################
 
 from copy import deepcopy # Used to copy boards represented as 2D lists
@@ -197,7 +197,7 @@ def solve(board):
                 new_path = path + [new_state]
                 q.append(new_path)
     return "NO_SOLUTION"
-    
+
 def cls():
     '''Clears the terminal screen.'''
     os.system('cls' if os.name=='nt' else 'clear')
