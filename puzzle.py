@@ -15,6 +15,20 @@ sample_board = [ #represented as a 2D list
     [7,8,0] # 0 stands for the empty slot
 ]
 ACTIONS = ["up", "down", "left", "right"] #Actions are represented as ways to move the empty slot (0) around.
+REVERSE_ACTION_MAP = {"up": "down", "down": "up", "left": "right", "right": "left"}
+INSTR_MAP = {
+    "right": "right",
+    "r": "right",
+    "left": "left",
+    "l": "left",
+    "up": "up",
+    "u": "up",
+    "down": "down",
+    "d": "down",
+    "reset": "reset",
+    "quit": "quit",
+    "solve": "solve"
+    }
 
 def print_board(board):
     '''Prints BOARD to console in the following format:
@@ -36,21 +50,68 @@ def print_board(board):
 
 def play():
     ''' Plays a sliding puzzle game by
-    1. Shuffling the sample_board to get initial board state
-    2. Solve the puzzle and obtain a list of actions
-    3. Visualize the solution
+    1. Shuffle the sample_board to get the initial board state
+    2. Ask the user whether to show the generated solution animation
+        if yes:
+            1. Solve the puzzle and obtain a list of actions
+            2. Visualize the solution
+    3. Enter the game loop: ask the user for actions and update boards until solved
     '''
     board = shuffle(sample_board)
     print("This is the randomly shuffled initial state:")
     print_board(board)
-    print("Solving...")
-    actions = solve(board)
-    if actions == "NO_SOLUTION": # A correct shuffle function should NOT result in NO_SOLUTION.
-        print("There is no solution from current state.")
-        return
-    print("Solved!")
-    input("Press Enter to start visualization: ")
-    visualize(board, actions)
+    show_solution = input("Would you like to see the solution animation? (yes/no): ")
+    while show_solution not in ("yes", "no"):
+        show_solution = input("Please input yes/no: ")
+    if show_solution == "yes":
+        print("Solving...")
+        actions = solve(board)
+        if actions == "NO_SOLUTION": # A correct shuffle function should NOT result in NO_SOLUTION.
+            print("There is no solution from current state.")
+            return
+        print("Solved!")
+        input("Press Enter to start visualization: ")
+        visualize(board, actions)
+    else:
+        ori_board = deepcopy(board)
+        num_actions = 0
+        instruction = input("u)p, d)own, r)ight, l)eft, reset, or quit: ")
+        display_board = True
+        while True:
+            if display_board:
+                cls()
+                print_board(board)
+            else:
+                display_board = True
+            if is_goal(board):
+                print("Puzzle solved! Steps taken:", num_actions)
+                return
+
+            while instruction not in INSTR_MAP:
+                instruction = input("u)p, d)own, r)ight, l)eft, reset, or quit: ")
+
+            instruction = INSTR_MAP[instruction]
+
+            if instruction == "reset":
+                board = deepcopy(ori_board)
+                num_actions = 0
+            elif instruction == "quit":
+                print("Quitting...")
+                return
+            elif instruction == "solve":
+                print("Solution is: ", solve(board))
+                display_board = False
+            else:
+                num_actions += 1
+                instruction = REVERSE_ACTION_MAP[instruction]
+                if instruction not in get_legal_actions(board):
+                    print("Illegal action:", REVERSE_ACTION_MAP[instruction])
+                    display_board = False
+                else:
+                    board = take(instruction, board)
+            instruction = None
+
+
 
 def visualize(board, actions):
     ''' Visualize the transitions in BOARD by printing each states after taking actions.
