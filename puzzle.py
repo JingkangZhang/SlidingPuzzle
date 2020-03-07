@@ -144,10 +144,7 @@ def find_zero(board):
     | 1 | 8 | 4 |
     -------------
     '''
-    for row in range(len(board)):
-        for col in range(len(board[0])):
-            if board[row][col] == 0:
-                return row, col
+    pass #FIXME
 
 def get_legal_actions(board):
     '''Returns a list of legal actions in BOARD. Actions are represented
@@ -166,13 +163,13 @@ def get_legal_actions(board):
     board_rows = len(board)
     board_cols = len(board[0])
     actions = ACTIONS[:]
-    if zero_pos[0] == 0:
+    if _: #FIXME
         actions.remove("up")
-    if zero_pos[0] == board_rows - 1:
+    if _: #FIXME
         actions.remove("down")
-    if zero_pos[1] == 0:
+    if _: #FIXME
         actions.remove("left")
-    if zero_pos[1] == board_cols - 1:
+    if _: #FIXME
         actions.remove("right")
     return actions
 
@@ -204,13 +201,13 @@ def take(action, board):
     zero_col = zero_pos[1]
     new_board = deepcopy(board)
     if action == "up":
-        new_board[zero_row][zero_col], new_board[zero_row - 1][zero_col] = new_board[zero_row - 1][zero_col], new_board[zero_row][zero_col]
+        pass #FIXME
     if action == "down":
-        new_board[zero_row][zero_col], new_board[zero_row + 1][zero_col] = new_board[zero_row + 1][zero_col], new_board[zero_row][zero_col]
+        pass #FIXME
     if action == "left":
-        new_board[zero_row][zero_col], new_board[zero_row][zero_col - 1] = new_board[zero_row][zero_col - 1], new_board[zero_row][zero_col]
+        pass #FIXME
     if action == "right":
-        new_board[zero_row][zero_col], new_board[zero_row][zero_col + 1] = new_board[zero_row][zero_col + 1], new_board[zero_row][zero_col]
+        pass #FIXME
     return new_board
 
 def shuffle(board):
